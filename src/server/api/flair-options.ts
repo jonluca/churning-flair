@@ -1,4 +1,4 @@
-export default [
+export const flairOptions = [
   {
     about: "",
     flair: "AAA",
@@ -32900,3 +32900,4 @@ export default [
     keyword: "Chase",
   },
 ];
+export default flairOptions;
