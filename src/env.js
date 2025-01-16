@@ -38,10 +38,10 @@ export const env = createEnv({
     REDDIT_SUBREDDIT: process.env.REDDIT_SUBREDDIT || "churning",
     REDDIT_REDIRECT_URI:
       process.env.REDDIT_REDIRECT_URI ||
-      (process.env.NODE_ENV === "production" ? "https://rchurning.com/redirect" : "http://localhost:3000/redirect"),
+      (process.env.NODE_ENV === "production" ? "https://www.rchurning.com/redirect" : "http://localhost:3000/redirect"),
     MOD_USERNAME: process.env.MOD_USERNAME || "ChurningMod",
     MOD_PASSWORD: process.env.MOD_PASSWORD,
-    MOD_SCRIPT_ID: process.env.MOD_SCRIPT_ID || "0n0vIo5zTOg-fw",
+    MOD_SCRIPT_ID: process.env.MOD_SCRIPT_ID || "oznbaimFTnztguB3wagUKw",
     MOD_SCRIPT_SECRET: process.env.MOD_SCRIPT_SECRET,
   },
   /**

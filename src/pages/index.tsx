@@ -7,10 +7,10 @@ export default function Home() {
 
   return (
     <>
-      <h1 className={"text-5xl font-extrabold tracking-tight text-white sm:text-[5rem]"}>r/churning flair selector</h1>
+      <h1 className={"text-5xl font-extrabold tracking-tight sm:text-[5rem]"}>r/churning flair selector</h1>
       <div className={"grid grid-cols-1 gap-4 sm:grid-cols-2 md:gap-8"}>
         <Link
-          className={"flex max-w-xs flex-col gap-4 rounded-xl bg-white/10 p-4 text-white hover:bg-white/20"}
+          className={"flex max-w-xs flex-col gap-4 rounded-xl bg-gray-100/10 p-4 hover:bg-gray-200/20"}
           href={authData?.authUrl ?? "#"}
           target={"_blank"}
         >
