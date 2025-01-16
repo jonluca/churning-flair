@@ -24,7 +24,7 @@ export const env = createEnv({
    * `NEXT_PUBLIC_`.
    */
   client: {
-    // NEXT_PUBLIC_CLIENTVAR: z.string(),
+    NEXT_PUBLIC_REDDIT_SUBREDDIT: z.string(),
   },
 
   /**
@@ -36,6 +36,7 @@ export const env = createEnv({
     REDDIT_CLIENT_ID: process.env.REDDIT_CLIENT_ID || "pdgOat07Rq6waQ",
     REDDIT_CLIENT_SECRET: process.env.REDDIT_CLIENT_SECRET,
     REDDIT_SUBREDDIT: process.env.REDDIT_SUBREDDIT || "churning",
+    NEXT_PUBLIC_REDDIT_SUBREDDIT: process.env.REDDIT_SUBREDDIT || "churning",
     REDDIT_REDIRECT_URI:
       process.env.REDDIT_REDIRECT_URI ||
       (process.env.NODE_ENV === "production" ? "https://www.rchurning.com/redirect" : "http://localhost:3000/redirect"),

@@ -5,6 +5,7 @@ import { api } from "~/utils/api";
 import "~/styles/globals.css";
 import dynamic from "next/dynamic";
 import Head from "next/head";
+import { env } from "~/env";
 
 const ReactQueryDevtools = dynamic(() => import("@tanstack/react-query-devtools").then((module) => module.ReactQueryDevtools), {
   ssr: false,
@@ -21,8 +22,8 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>r/churning flair selector</title>
-        <meta name={"description"} content={"Churning flair selector"} />
+        <title>r/{env.NEXT_PUBLIC_REDDIT_SUBREDDIT} flair selector</title>
+        <meta name={"description"} content={`r/${env.NEXT_PUBLIC_REDDIT_SUBREDDIT} flair selector`} />
         <link rel={"icon"} href={"/favicon.ico"} />
       </Head>
       <div className={poppins.className}>
