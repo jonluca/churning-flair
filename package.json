@@ -10,7 +10,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
     "lint": "next lint",
-    "lint:fix": "next lint --fix",
+    "lint:fix": "next lint --fix && prettier -w .",
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit"
@@ -41,6 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^8.20.0",
     "@typescript-eslint/parser": "^8.20.0",
     "autoprefixer": "^10.4.20",
+    "babel-plugin-react-compiler": "^19.0.0-beta-e552027-20250112",
     "eslint": "^9",
     "eslint-config-next": "^15.1.4",
     "eslint-config-prettier": "^10.0.1",

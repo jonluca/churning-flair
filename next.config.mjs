@@ -7,7 +7,15 @@ import "./src/env.js";
 /** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
-
+  poweredByHeader: false,
+  experimental: {
+    scrollRestoration: true,
+    largePageDataBytes: 512 * 100000,
+    reactCompiler: true,
+    serverSourceMaps: true,
+    reactOwnerStack: true,
+    optimizeServerReact: true,
+  },
   /**
    * If you are using `appDir` then you must comment the below `i18n` config out.
    *
@@ -17,7 +25,6 @@ const config = {
     locales: ["en"],
     defaultLocale: "en",
   },
-  transpilePackages: ["geist"],
 };
 
 export default config;
