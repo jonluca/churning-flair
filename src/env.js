@@ -8,6 +8,14 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    REDDIT_CLIENT_ID: z.string(),
+    REDDIT_CLIENT_SECRET: z.string(),
+    REDDIT_REDIRECT_URI: z.string(),
+    REDDIT_SUBREDDIT: z.string(),
+    MOD_USERNAME: z.string(),
+    MOD_PASSWORD: z.string(),
+    MOD_SCRIPT_ID: z.string(),
+    MOD_SCRIPT_SECRET: z.string(),
   },
 
   /**
@@ -25,7 +33,16 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
-    // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
+    REDDIT_CLIENT_ID: process.env.REDDIT_CLIENT_ID || "pdgOat07Rq6waQ",
+    REDDIT_CLIENT_SECRET: process.env.REDDIT_CLIENT_SECRET,
+    REDDIT_SUBREDDIT: process.env.REDDIT_SUBREDDIT || "churning",
+    REDDIT_REDIRECT_URI:
+      process.env.REDDIT_REDIRECT_URI ||
+      (process.env.NODE_ENV === "production" ? "https://rchurning.com/redirect" : "http://localhost:3000/redirect"),
+    MOD_USERNAME: process.env.MOD_USERNAME || "ChurningMod",
+    MOD_PASSWORD: process.env.MOD_PASSWORD,
+    MOD_SCRIPT_ID: process.env.MOD_SCRIPT_ID || "0n0vIo5zTOg-fw",
+    MOD_SCRIPT_SECRET: process.env.MOD_SCRIPT_SECRET,
   },
   /**
    * Run `build` or `dev` with `SKIP_ENV_VALIDATION` to skip env validation. This is especially
