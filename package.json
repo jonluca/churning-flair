@@ -25,7 +25,7 @@
     "@trpc/server": "^11.0.0-rc.700",
     "cssnano": "^7.0.6",
     "fuse.js": "^7.0.0",
-    "next": "^15.1.4",
+    "next": "^15.2.4",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-virtuoso": "^4.12.3",
