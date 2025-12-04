@@ -3,28 +3,18 @@
  * for Docker builds.
  */
 import "./src/env.js";
+import { type NextConfig } from "next";
 
-/** @type {import("next").NextConfig} */
 const config = {
   reactStrictMode: true,
   poweredByHeader: false,
+  reactCompiler: true,
   experimental: {
     scrollRestoration: true,
     largePageDataBytes: 512 * 100000,
-    reactCompiler: true,
     serverSourceMaps: true,
-    reactOwnerStack: true,
     optimizeServerReact: true,
   },
-  /**
-   * If you are using `appDir` then you must comment the below `i18n` config out.
-   *
-   * @see https://github.com/vercel/next.js/issues/41980
-   */
-  i18n: {
-    locales: ["en"],
-    defaultLocale: "en",
-  },
-};
+} satisfies NextConfig;
 
 export default config;

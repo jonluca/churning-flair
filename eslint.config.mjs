@@ -3,16 +3,13 @@ import prettierPlugin from "eslint-plugin-prettier";
 import unusedImportsPlugin from "eslint-plugin-unused-imports";
 import reactPlugin from "eslint-plugin-react";
 import prettierExtends from "eslint-config-prettier";
-import { fixupConfigRules, fixupPluginRules } from "@eslint/compat";
-import { FlatCompat } from "@eslint/eslintrc";
+import { fixupPluginRules } from "@eslint/compat";
 import globals from "globals";
 import hooksPlugin from "eslint-plugin-react-hooks";
 import pluginImport from "eslint-plugin-import-x";
 import tseslint from "typescript-eslint";
 import promisePlugin from "eslint-plugin-promise";
 import reactCompilerPlugin from "eslint-plugin-react-compiler";
-
-const compat = new FlatCompat();
 
 const globalToUse = {
   ...globals.browser,
@@ -44,13 +41,7 @@ const configs = tseslint.config(
   {
     ignores,
 
-    extends: [
-      eslint.configs.recommended,
-      ...tseslint.configs.recommended,
-      ...fixupConfigRules(compat.extends("plugin:@next/next/core-web-vitals")),
-      promisePlugin.configs["flat/recommended"],
-      prettierExtends,
-    ],
+    extends: [eslint.configs.recommended, ...tseslint.configs.recommended, promisePlugin.configs["flat/recommended"], prettierExtends],
     plugins: {
       // "@next/next": nextPlugin,
       "import-x": pluginImport,
