@@ -43,17 +43,12 @@ export const redditRouter = createTRPCRouter({
         throw new Error("Invalid flair");
       }
 
-      try {
-        const userToken = await redditClient.getAccessToken(input.code);
-        const userData = await redditClient.getUserData(userToken.access_token);
-        const modToken = await redditClient.getModAccessToken();
+      const userToken = await redditClient.getAccessToken(input.code);
+      const userData = await redditClient.getUserData(userToken.access_token);
+      const modToken = await redditClient.getModAccessToken();
 
-        const response = await redditClient.setUserFlair(modToken.access_token, userData.name, input.flairText.join(" | "));
+      const response = await redditClient.setUserFlair(modToken.access_token, userData.name, input.flairText.join(" | "));
 
-        return { success: true, data: response };
-      } catch (error) {
-        console.error(error);
-        return { success: false, data: error };
-      }
+      return { success: true, data: response };
     }),
 });

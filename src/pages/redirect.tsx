@@ -7,13 +7,26 @@ import Link from "next/link";
 
 export default function RedirectPage() {
   const router = useRouter();
+  const authorizationCode = typeof router.query.code === "string" ? router.query.code : null;
+  const authorizationState = typeof router.query.state === "string" ? router.query.state : null;
+  const authorizationError = typeof router.query.error === "string" ? router.query.error : null;
+  const hasAuthorizedCallback = authorizationCode !== null && authorizationState !== null && authorizationError === null;
   const [error, setError] = useState<string | null>(null);
   const [selectedFlairs, setSelectedFlairs] = useState<string[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
 
   // Get flair options
-  const { data: flairOptions = [], isLoading } = api.reddit.getFlairOptions.useQuery();
-  const { mutate: setFlair, isSuccess } = api.reddit.setUserFlair.useMutation({
+  const { data: flairOptions = [], isLoading } = api.reddit.getFlairOptions.useQuery(undefined, {
+    enabled: router.isReady && hasAuthorizedCallback,
+  });
+  const {
+    mutate: setFlair,
+    isPending,
+    isSuccess,
+  } = api.reddit.setUserFlair.useMutation({
+    onMutate: () => {
+      setError(null);
+    },
     onSuccess: () => {
       setError(null);
       // Show success message or redirect
@@ -46,6 +59,7 @@ export default function RedirectPage() {
   }, [selectedFlairs]);
 
   const handleFlairSelect = (flairText: string) => {
+    setError(null);
     setSelectedFlairs((prev) => {
       if (prev.includes(flairText)) {
         return prev.filter((f) => f !== flairText);
@@ -63,11 +77,12 @@ export default function RedirectPage() {
       return;
     }
 
-    setFlair({
-      code: router.query.code as string,
-      state: router.query.state as string,
-      flairText: selectedFlairs,
-    });
+    if (!authorizationCode || !authorizationState) {
+      setError("Reddit authorization is missing. Please start again from the login page.");
+      return;
+    }
+
+    setFlair({ code: authorizationCode, state: authorizationState, flairText: selectedFlairs });
   };
 
   // Render individual flair item
@@ -85,13 +100,34 @@ export default function RedirectPage() {
     </label>
   );
 
+  if (!router.isReady) {
+    return <div className={"mx-auto max-w-md p-4"}>Loading authorization...</div>;
+  }
+
+  if (!hasAuthorizedCallback) {
+    const message =
+      authorizationError === "access_denied"
+        ? "Reddit authorization was denied. No flair was changed."
+        : "Reddit authorization did not complete. Please start again from the login page.";
+
+    return (
+      <div className={"mx-auto max-w-md p-4"}>
+        <h1 className={"mb-4 text-2xl font-bold"}>Authorization unsuccessful</h1>
+        <div className={"mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"}>{message}</div>
+        <Link className={"inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"} href={"/"}>
+          Return to login
+        </Link>
+      </div>
+    );
+  }
+
   if (isSuccess) {
     return (
       <div className={"mx-auto max-w-md p-4"}>
         <h1 className={"mb-4 text-2xl font-bold"}>Success! Your flair is now</h1>
         <div className={"mb-4 rounded border border-gray-200 bg-gray-50 p-3"}>{flairPreview}</div>
-        <Link href={"/"}>
-          <button className={"rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"}>Home</button>
+        <Link className={"inline-block rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"} href={"/"}>
+          Home
         </Link>
       </div>
     );
@@ -100,42 +136,42 @@ export default function RedirectPage() {
     <div className={"mx-auto max-w-md p-4"}>
       <h1 className={"mb-4 text-2xl font-bold"}>Set Your Flair</h1>
 
-      {error ? (
-        <div className={"mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"}>{error}</div>
-      ) : (
-        <>
-          <div className={"mb-4"}>
-            <label className={"mb-2 block text-sm font-medium"}>Search Flairs</label>
-            {isLoading && <div>Loading...</div>}
-            <input
-              type={"text"}
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              className={"mb-2 w-full rounded border p-2"}
-              placeholder={"Search flairs..."}
-            />
+      {error && <div className={"mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"}>{error}</div>}
 
-            <div className={"h-[400px] rounded border"}>
-              <Virtuoso data={filteredFlairs} itemContent={(index, flair) => <FlairItem flair={flair} />} className={"h-full"} />
-            </div>
-          </div>
+      <div className={"mb-4"}>
+        <label className={"mb-2 block text-sm font-medium"}>Search Flairs</label>
+        {isLoading && <div>Loading...</div>}
+        <input
+          type={"text"}
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className={"mb-2 w-full rounded border p-2"}
+          placeholder={"Search flairs..."}
+        />
 
-          {/* Add preview section */}
-          {selectedFlairs.length > 0 && (
-            <div className={"mb-4 rounded border border-gray-200 bg-gray-50 p-3"}>
-              <div className={"text-sm font-medium text-gray-600"}>Preview:</div>
-              <div className={"mt-1"}>{flairPreview}</div>
-            </div>
-          )}
+        <div className={"h-[400px] rounded border"}>
+          <Virtuoso data={filteredFlairs} itemContent={(index, flair) => <FlairItem flair={flair} />} className={"h-full"} />
+        </div>
+      </div>
 
-          <div className={"flex flex-col items-center justify-between"}>
-            <div className={"text-sm text-gray-600"}>{selectedFlairs.length}/2 selected</div>
-            <button onClick={handleSave} className={"rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"}>
-              Save Flair
-            </button>
-          </div>
-        </>
+      {/* Add preview section */}
+      {selectedFlairs.length > 0 && (
+        <div className={"mb-4 rounded border border-gray-200 bg-gray-50 p-3"}>
+          <div className={"text-sm font-medium text-gray-600"}>Preview:</div>
+          <div className={"mt-1"}>{flairPreview}</div>
+        </div>
       )}
+
+      <div className={"flex flex-col items-center justify-between"}>
+        <div className={"text-sm text-gray-600"}>{selectedFlairs.length}/2 selected</div>
+        <button
+          onClick={handleSave}
+          disabled={isPending}
+          className={"rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"}
+        >
+          {isPending ? "Saving..." : "Save Flair"}
+        </button>
+      </div>
     </div>
   );
 }

@@ -100,7 +100,7 @@ export class RedditClient {
     });
 
     const data = await response.json();
-    if (!response.ok) {
+    if (!response.ok || data.json?.errors?.length > 0) {
       throw new Error(`Failed to set user flair: ${JSON.stringify(data)}`);
     }
 
