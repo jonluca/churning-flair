@@ -155,11 +155,11 @@ export default function RedirectPage() {
           type={"text"}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className={"mb-2 w-full rounded border p-2"}
+          className={"mb-2 w-full rounded border border-gray-200 p-2"}
           placeholder={"Search flairs..."}
         />
 
-        <div className={"h-[400px] rounded border"}>
+        <div className={"h-[400px] rounded border border-gray-200"}>
           <Virtuoso data={filteredFlairs} itemContent={(index, flair) => <FlairItem flair={flair} />} className={"h-full"} />
         </div>
       </div>
@@ -177,7 +177,9 @@ export default function RedirectPage() {
         <button
           onClick={handleSave}
           disabled={isPending}
-          className={"rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"}
+          className={
+            "cursor-pointer rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 disabled:cursor-not-allowed disabled:opacity-50"
+          }
         >
           {isPending ? "Saving..." : "Save Flair"}
         </button>

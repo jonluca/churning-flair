@@ -3,90 +3,56 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": "24.x"
+  },
   "scripts": {
     "build": "next build --webpack",
-    "check": "eslint --fix && tsc --noEmit",
+    "check": "yarn lint && yarn format:check && yarn typecheck",
     "dev": "next dev --webpack",
-    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
-    "format:write": "prettier --write \"**/*.{ts,tsx,js,jsx,mdx}\" --cache",
-    "lint:fix": "eslint --fix && prettier -w .",
+    "format:check": "oxfmt --check",
+    "format:write": "oxfmt",
+    "lint": "oxlint . --deny-warnings",
+    "lint:fix": "oxlint . --fix --deny-warnings && oxfmt",
     "preview": "next build && next start",
     "start": "next start",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@t3-oss/env-nextjs": "^0.13.10",
-    "@tanstack/react-query": "^5.90.20",
-    "@tanstack/react-query-devtools": "^5.91.2",
-    "@trpc/client": "^11.8.1",
-    "@trpc/next": "^11.8.1",
-    "@trpc/react-query": "^11.8.1",
-    "@trpc/server": "^11.8.1",
-    "cssnano": "^7.1.2",
-    "fuse.js": "^7.1.0",
-    "next": "^16.1.4",
-    "react": "^19.2.3",
-    "react-dom": "^19.2.3",
-    "react-virtuoso": "^4.18.1",
+    "@t3-oss/env-nextjs": "^0.13.11",
+    "@tanstack/react-query": "^5.101.4",
+    "@tanstack/react-query-devtools": "^5.101.4",
+    "@trpc/client": "^11.18.0",
+    "@trpc/next": "^11.18.0",
+    "@trpc/react-query": "^11.18.0",
+    "@trpc/server": "^11.18.0",
+    "fuse.js": "^7.5.0",
+    "next": "^16.3.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-virtuoso": "^4.18.11",
     "superjson": "^2.2.6",
-    "zod": "^4.3.6"
+    "zod": "^4.4.3"
   },
   "devDependencies": {
-    "@eslint/compat": "^2.0.1",
-    "@types/eslint": "^9.6.1",
-    "@types/node": "^25.0.10",
-    "@types/react": "^19.2.9",
-    "@types/react-dom": "^19.2.3",
-    "@typescript-eslint/eslint-plugin": "^8.53.1",
-    "@typescript-eslint/parser": "^8.53.1",
-    "autoprefixer": "^10.4.23",
+    "@tailwindcss/postcss": "^4.3.3",
+    "@types/node": "^24.13.3",
+    "@types/react": "^19.2.18",
+    "@types/react-dom": "^19.2.4",
     "babel-plugin-react-compiler": "^1.0.0",
-    "eslint": "^9",
-    "eslint-config-next": "^16.1.4",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-import-resolver-typescript": "^4.4.4",
-    "eslint-plugin-import": "^2.32.0",
-    "eslint-plugin-import-typescript": "^0.0.4",
-    "eslint-plugin-import-x": "^4.16.1",
-    "eslint-plugin-n": "^17.23.2",
-    "eslint-plugin-node": "^11.1.0",
-    "eslint-plugin-prettier": "^5.5.5",
-    "eslint-plugin-promise": "^7.2.1",
-    "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-compiler": "^19.1.0-rc.2",
-    "eslint-plugin-react-hooks": "^7.0.1",
-    "eslint-plugin-unused-imports": "^4.3.0",
-    "eslint-plugin-workspaces": "^0.11.1",
-    "globals": "^17.1.0",
-    "postcss": "^8.5.23",
-    "postcss-import": "^15.1.0",
-    "prettier": "^3.8.1",
-    "prettier-plugin-tailwindcss": "^0.7.2",
-    "tailwindcss": "^3",
-    "typescript": "^5.9.3",
-    "typescript-eslint": "^8.53.1"
+    "oxfmt": "^0.62.0",
+    "oxlint": "^1.77.0",
+    "postcss": "^8.5.26",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^7.0.2"
   },
   "ct3aMetadata": {
     "initVersion": "7.38.1"
   },
-  "packageManager": "yarn@4.12.0",
-  "prettier": {
-    "printWidth": 140,
-    "arrowParens": "always",
-    "semi": true,
-    "tabWidth": 2,
-    "trailingComma": "all",
-    "plugins": [
-      "prettier-plugin-tailwindcss"
-    ]
-  },
+  "packageManager": "yarn@4.18.0",
   "postcss": {
     "plugins": {
-      "postcss-import": {},
-      "tailwindcss": {},
-      "autoprefixer": {},
-      "cssnano": {}
+      "@tailwindcss/postcss": {}
     }
   }
 }
