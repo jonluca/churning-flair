@@ -60,6 +60,7 @@
     "eslint-plugin-workspaces": "^0.11.1",
     "globals": "^17.1.0",
     "postcss": "^8.5.23",
+    "postcss-import": "^15.1.0",
     "prettier": "^3.8.1",
     "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^3",
