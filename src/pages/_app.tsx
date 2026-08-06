@@ -22,7 +22,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <>
       <Head>
-        <title>r/{env.NEXT_PUBLIC_REDDIT_SUBREDDIT} flair selector</title>
+        <title>{`r/${env.NEXT_PUBLIC_REDDIT_SUBREDDIT} flair selector`}</title>
         <meta name={"description"} content={`r/${env.NEXT_PUBLIC_REDDIT_SUBREDDIT} flair selector`} />
         <link rel={"icon"} href={"/favicon.ico"} />
       </Head>

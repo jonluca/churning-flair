@@ -1,12 +1,19 @@
 import { useRouter } from "next/router";
-import { useState, useMemo } from "react";
+import { useMemo, useState, useSyncExternalStore } from "react";
 import { api } from "~/utils/api";
 import { Virtuoso } from "react-virtuoso";
 import Fuse from "fuse.js";
 import Link from "next/link";
 
+const subscribeToHydration = () => () => undefined;
+const getClientHydrationSnapshot = () => true;
+const getServerHydrationSnapshot = () => false;
+
+const useHydrated = () => useSyncExternalStore(subscribeToHydration, getClientHydrationSnapshot, getServerHydrationSnapshot);
+
 export default function RedirectPage() {
   const router = useRouter();
+  const isHydrated = useHydrated();
   const authorizationCode = typeof router.query.code === "string" ? router.query.code : null;
   const authorizationState = typeof router.query.state === "string" ? router.query.state : null;
   const authorizationError = typeof router.query.error === "string" ? router.query.error : null;
@@ -100,7 +107,7 @@ export default function RedirectPage() {
     </label>
   );
 
-  if (!router.isReady) {
+  if (!isHydrated || !router.isReady) {
     return <div className={"mx-auto max-w-md p-4"}>Loading authorization...</div>;
   }
 
@@ -139,9 +146,12 @@ export default function RedirectPage() {
       {error && <div className={"mb-4 rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"}>{error}</div>}
 
       <div className={"mb-4"}>
-        <label className={"mb-2 block text-sm font-medium"}>Search Flairs</label>
+        <label className={"mb-2 block text-sm font-medium"} htmlFor={"flair-search"}>
+          Search Flairs
+        </label>
         {isLoading && <div>Loading...</div>}
         <input
+          id={"flair-search"}
           type={"text"}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
